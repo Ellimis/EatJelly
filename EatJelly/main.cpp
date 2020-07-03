@@ -1,10 +1,20 @@
 #include <iostream>
+#include "game.h"
 
 using namespace std;
 
 int main() {
-	int a = 10;
-	int b = -a;
-	cout << b << a << a+b;
+	GameManager Director;
+
+	cout << "Human's Eat Food(Jelly) Game Start!" << endl;
+	Director.drawMap();
+
+	while (true) {
+		Director.moveAll();
+		Director.drawMap();
+
+		if (Director.isCollide()) break;
+	}
+
 	return 0;
 }
