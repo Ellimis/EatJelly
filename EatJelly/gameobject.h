@@ -30,6 +30,7 @@ public:
 
 class Human : public GameObject {
 	char shape;
+public:
 	Human(int x, int y, int distance) : GameObject(x, y, distance) {
 		this->shape = 'P';
 	}

@@ -1,5 +1,3 @@
-#include "gameobject.h"
-
 class GameManager {
 	char map[10][20] = { '-' }; // x : 0~9, y : 0~19
 public:
