@@ -4,9 +4,9 @@
 
 using namespace std;
 
-Human player(0, 0, 1); // player  initial x : 0, y : 0, | can move 1 block & user input direction
-Monster mob(5, 5, 2);  // monster initial x : 5, y : 5  | can move 2 block & random direction
-Food jelly(9, 9, 1);   // food    initial x : 9, y : 9	| can move 1 block & random direction
+Human player(0, 0, 1, 'P'); // player  initial x : 0, y : 0, | can move 1 block & user input direction
+Object mob(5, 5, 2, 'M');  // monster initial x : 5, y : 5  | can move 2 block & random direction
+Object jelly(9, 9, 1, '@');   // food    initial x : 9, y : 9	| can move 1 block & random direction
 
 void GameManager::drawMap() { // set object's shape into each location
 	map[jelly.getX()][jelly.getY()] = jelly.getShape();

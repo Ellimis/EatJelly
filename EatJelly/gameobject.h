@@ -1,18 +1,21 @@
 #include <iostream>
-#include <cstdlib> // for rand() srand()
-#include <ctime> // for random srand seed
+#include <random>
 
 using namespace std;
 
+random_device rd; // for seed
+mt19937 gen(rd()); // random number engine
+uniform_int_distribution<int> dis(0, 3); // 0 ~ 3 random number
+
 class GameObject {
 protected:
-	int distance; // Distance the current object can move
 	int x, y; // x : row, y : column
+	int distance; // Distance the current object can move
+	char shape; // each Object has different shape;
 public:
-	GameObject(int startX, int startY, int distance) : x(startX), y(startY) {
+	GameObject(int startX, int startY, int distance, char shape) : x(startX), y(startY) {
 		this->distance = distance;
-		srand(time(0));
-		rand();
+		this->shape = shape;
 	}
 	virtual ~GameObject() {}; // virtual destructor
 	virtual void move() = 0; // Set x, y after moving
@@ -29,11 +32,8 @@ public:
 };
 
 class Human : public GameObject {
-	char shape;
 public:
-	Human(int x, int y, int distance) : GameObject(x, y, distance) {
-		this->shape = 'P';
-	}
+	Human(int x, int y, int distance, char shape) : GameObject(x, y, distance, shape) { }
 	virtual ~Human() {};
 	virtual void move() { // player move one block by w a s d
 		char direction;
@@ -64,47 +64,13 @@ public:
 
 enum DIR { UP, LEFT, DOWN, RIGHT };
 
-class Monster : public GameObject {
-	char shape;
+class Object : public GameObject {
 public:
-	Monster(int x, int y, int distance) : GameObject(x, y, distance) {
-		this->shape = 'M';
-	}
-	virtual ~Monster() {};
+	Object(int x, int y, int distance, char shape) : GameObject(x, y, distance, shape) { }
+	virtual ~Object() {};
 	virtual void move() {
-		int n = rand() / RAND_MAX * 3; // (0 ~ 1) * 3, up(0) left(1) down(2) right(3)
-
-		switch (n) {
-		case UP:
-			this->x -= this->distance;
-			if (this->getX() < 0) this->x = 9;
-			break;
-		case LEFT:
-			this->y -= this->distance;
-			if (this->getY() < 0) this->y = 19;
-			break;
-		case DOWN:
-			this->x += this->distance;
-			if (this->getX() > 9) this->x = 0;
-			break;
-		case RIGHT:
-			this->y += this->distance;
-			if (this->getY() > 19) this->y = 0;
-			break;
-		}
-	}
-	virtual char getShape() { return this->shape; }
-};
-
-class Food : public GameObject {
-	char shape;
-public:
-	Food(int x, int y, int distance) : GameObject(x, y, distance) {
-		this->shape = '@';
-	}
-	virtual ~Food() {};
-	virtual void move() {
-		int n = rand() / RAND_MAX * 3; // (0 ~ 1) * 3, up(0) left(1) down(2) right(3)
+		//int n = rand() / RAND_MAX * 3; // (0 ~ 1) * 3, up(0) left(1) down(2) right(3)
+		int n = dis(gen); // 0 ~ 3
 
 		switch (n) {
 		case UP:
